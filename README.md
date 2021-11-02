@@ -46,3 +46,13 @@ Getting video playback status...
 [Result] Video has loaded and currently playing
 [Video Title] Katmundu
 ```
+
+
+## Error handling
+
+- Importerror
+- Internet connectivity
+- Connection to bongobd.com
+- Detecting free videos
+- Handling advertisements
+- playback status via player button and progress time
