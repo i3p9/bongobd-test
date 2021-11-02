@@ -35,12 +35,15 @@ def loadCompletely():
     time.sleep(6)
 
 def checkForAds():
-    print("Checking for advertisements...")
+    print("Checking for advertisements...", end=" ")
     timeChecker1 = driver.find_element(By.XPATH,'//div[contains(@id,"vod_ima-countdown-div")]').text
     time.sleep(3)
     timeChecker2 = driver.find_element(By.XPATH,'//div[contains(@id,"vod_ima-countdown-div")]').text
 
-    if is_not_blank(timeChecker2) == False: return #Stop checking for ads since it's not present
+    if is_not_blank(timeChecker2) == False:
+        print("No ads found")
+        return #Stop checking for ads since it's not present
+    else: print("Found ads..")
 
     adTime = int(timeChecker2[-2:])
     if timeChecker1 != timeChecker2:
@@ -49,6 +52,7 @@ def checkForAds():
     print("Advertisement is done playing...")
 
 def getVideoPlaybackStatus():
+    print("Getting video playback status")
     time.sleep(10) #Wait 10 seconds for video to play (due to network issue)
     progressTime = driver.find_element(By.XPATH,'//div[contains(@class,"vjs-progress-holder")]').get_attribute("aria-valuenow")
     ButtonStatus = driver.find_element(By.XPATH,'//button[contains(@class, "vjs-play-control")]').get_attribute("title")
@@ -97,7 +101,11 @@ if __name__ == "__main__":
     try:
         s=Service(ChromeDriverManager().install())
         driver = webdriver.Chrome(service=s)
-        driver.get("https://bongobd.com/")
+        try:
+            driver.get("https://bongobd.com/")
+        except:
+            print("Exiting... Can not reach Bongobd website")
+            exit()
     except:
         print("Exiting... Not connected to the internet")
         exit()
