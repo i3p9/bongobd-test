@@ -41,18 +41,18 @@ def checkForAds():
     timeChecker2 = driver.find_element(By.XPATH,'//div[contains(@id,"vod_ima-countdown-div")]').text
 
     if is_not_blank(timeChecker2) == False:
-        print("No ads found")
+        print("[No ads found]")
         return #Stop checking for ads since it's not present
-    else: print("Found ads..")
+    else: print("[Found ads]")
 
     adTime = int(timeChecker2[-2:])
     if timeChecker1 != timeChecker2:
-        print("Advertisement is playing...")
+        print("[Advertisement] Is playing...["+adTime+" seconds remaining approx.]")
     time.sleep(adTime+2)
-    print("Advertisement is done playing...")
+    print("[Advertisement] Is done playing...")
 
 def getVideoPlaybackStatus():
-    print("Getting video playback status")
+    print("Getting video playback status...")
     time.sleep(10) #Wait 10 seconds for video to play (due to network issue)
     progressTime = driver.find_element(By.XPATH,'//div[contains(@class,"vjs-progress-holder")]').get_attribute("aria-valuenow")
     ButtonStatus = driver.find_element(By.XPATH,'//button[contains(@class, "vjs-play-control")]').get_attribute("title")
@@ -97,23 +97,23 @@ def getFreeVideos():
 
 
 if __name__ == "__main__":
-    print("Starting up the video playback flow...")
+    print("===Starting up the video playback flow===")
     try:
         s=Service(ChromeDriverManager().install())
         driver = webdriver.Chrome(service=s)
         try:
             driver.get("https://bongobd.com/")
         except:
-            print("Exiting... Can not reach Bongobd website")
+            print("[Exiting] Can not reach Bongobd website")
             exit()
     except:
-        print("Exiting... Not connected to the internet")
+        print("[Exiting] Not connected to the internet")
         exit()
     loadCompletely()
     vids = getFreeVideos()
 
     if len(vids)<1:
-        print("No videos found, exiting...")
+        print("[Exiting] No videos found on the webpage")
         exit()
 
     print("Found "+ str(len(vids)) + " free videos on page via xpath")
@@ -124,7 +124,7 @@ if __name__ == "__main__":
     vidTitle = getVideoTitle()
     vidStatus = getVideoPlaybackStatus()
     if vidStatus == True:
-        print("Result: Video has loaded and currently playing")
-        print("Video Title: ",vidTitle)
+        print("[Result] Video has loaded and currently playing")
+        print("[Video Title] ",vidTitle)
     else:
-        print("Result: Video is not playing")
+        print("[Result] Video is not playing")
